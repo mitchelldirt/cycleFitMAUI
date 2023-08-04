@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1706.2
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cycleFitMAUI", "cycleFitMAUI\cycleFitMAUI.csproj", "{7E5ACF2B-7792-470C-944F-D9FFEC1AF0C7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7E5ACF2B-7792-470C-944F-D9FFEC1AF0C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E5ACF2B-7792-470C-944F-D9FFEC1AF0C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E5ACF2B-7792-470C-944F-D9FFEC1AF0C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E5ACF2B-7792-470C-944F-D9FFEC1AF0C7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7118B6A7-5E95-423C-8CEC-DBBC63A5744A}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,16 @@
+﻿@page "/workoutcreator"
+
+@using cycleFitMAUI.Data
+@inject WorkoutEncode.Program WorkoutCreator
+
+<h1>Create your cycling workout</h1>
+<p>@greeting</p>
+<button @onclick="CreateWorkout"  class="btn btn-primary">Click me to create a file</button>
+
+@code {
+    public void CreateWorkout () {
+        WorkoutCreator.Main();
+    }
+    string greeting = "Hello :)";
+}
+
