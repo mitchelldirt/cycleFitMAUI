@@ -15,16 +15,13 @@ using System.Collections.Generic;
 using System.IO;
 using Dynastream.Fit;
 
-namespace WorkoutEncode
+namespace cycleFitMAUI.Data
 {
-    public class Program
+    public class WorkoutService
     {
         public void Main()
         {
             CreateBikeTempoWorkout();
-            // CreateRun800RepeatsWorkout();
-            // CreateCustomTargetValuesWorkout();
-            // CreatePoolSwimWorkout();
         }
 
         static void CreateBikeTempoWorkout()
@@ -57,134 +54,6 @@ namespace WorkoutEncode
             CreateWorkout(workoutMesg, workoutSteps);
         }
 
-
-        static void CreateRun800RepeatsWorkout()
-        {
-            var workoutSteps = new List<WorkoutStepMesg>();
-
-            workoutSteps.Add(CreateWorkoutStep(messageIndex: workoutSteps.Count,
-                                                durationType: WktStepDuration.Distance,
-                                                durationValue: 400000, // centimeters
-                                                targetType: WktStepTarget.HeartRate,
-                                                targetValue: 1,
-                                                intensity: Intensity.Warmup));
-
-            workoutSteps.Add(CreateWorkoutStep(messageIndex: workoutSteps.Count,
-                                                durationType: WktStepDuration.Distance,
-                                                durationValue: 80000, // centimeters
-                                                targetType: WktStepTarget.HeartRate,
-                                                targetValue: 4));
-
-            workoutSteps.Add(CreateWorkoutStep(messageIndex: workoutSteps.Count,
-                                                durationType: WktStepDuration.Distance,
-                                                durationValue: 20000, // centimeters
-                                                targetType: WktStepTarget.HeartRate,
-                                                targetValue: 2,
-                                                intensity: Intensity.Rest));
-
-            workoutSteps.Add(CreateWorkoutStepRepeat(messageIndex: workoutSteps.Count, repeatFrom: 1, repetitions: 5));
-
-            workoutSteps.Add(CreateWorkoutStep(messageIndex: workoutSteps.Count,
-                                                durationType: WktStepDuration.Distance,
-                                                durationValue: 100000, // centimeters
-                                                targetType: WktStepTarget.HeartRate,
-                                                targetValue: 2,
-                                                intensity: Intensity.Cooldown));
-
-            var workoutMesg = new WorkoutMesg();
-            workoutMesg.SetWktName("Running 800m Repeats");
-            workoutMesg.SetSport(Sport.Running);
-            workoutMesg.SetSubSport(SubSport.Invalid);
-            workoutMesg.SetNumValidSteps((ushort)workoutSteps.Count);
-
-            CreateWorkout(workoutMesg, workoutSteps);
-        }
-
-        static void CreateCustomTargetValuesWorkout()
-        {
-            var workoutSteps = new List<WorkoutStepMesg>();
-
-            workoutSteps.Add(CreateWorkoutStep(messageIndex: workoutSteps.Count,
-                                                durationType: WktStepDuration.Time,
-                                                durationValue: 600000, // milliseconds
-                                                targetType: WktStepTarget.HeartRate,
-                                                customTargetValueLow: 235, // 135 + 100
-                                                customTargetValueHigh: 255, // 155 + 100
-                                                intensity: Intensity.Warmup));
-
-            workoutSteps.Add(CreateWorkoutStep(messageIndex: workoutSteps.Count,
-                                                durationType: WktStepDuration.Time,
-                                                durationValue: 2400000, // milliseconds
-                                                targetType: WktStepTarget.Power,
-                                                customTargetValueLow: 1175, // 175 + 1000
-                                                customTargetValueHigh: 1195)); // 195 + 1000
-
-            workoutSteps.Add(CreateWorkoutStep(messageIndex: workoutSteps.Count,
-                                                durationType: WktStepDuration.Time,
-                                                durationValue: 600000, // milliseconds
-                                                targetType: WktStepTarget.Speed,
-                                                customTargetValueLow: 5556, // 5.556 meters/second * 1000
-                                                customTargetValueHigh: 6944, // 6.944 meters/second * 1000
-                                                intensity: Intensity.Cooldown));
-
-            var workoutMesg = new WorkoutMesg();
-            workoutMesg.SetWktName("Custom Target Values");
-            workoutMesg.SetSport(Sport.Cycling);
-            workoutMesg.SetSubSport(SubSport.Invalid);
-            workoutMesg.SetNumValidSteps((ushort)workoutSteps.Count);
-
-            CreateWorkout(workoutMesg, workoutSteps);
-        }
-
-        static void CreatePoolSwimWorkout()
-        {
-            var workoutSteps = new List<WorkoutStepMesg>();
-
-            // Warm Up 200 yds
-            workoutSteps.Add(CreateWorkoutStepSwim(messageIndex: workoutSteps.Count,
-                                                    distance: 182.88f,
-                                                    intensity: Intensity.Warmup));
-            // Rest until lap button pressed
-            workoutSteps.Add(CreateWorkoutStepSwimRest(messageIndex: workoutSteps.Count));
-
-            // Drill w/ kickboard 200 yds
-            workoutSteps.Add(CreateWorkoutStepSwim(messageIndex: workoutSteps.Count,
-                                        distance: 182.88f,
-                                        swimStroke: SwimStroke.Drill,
-                                        equipment: WorkoutEquipment.SwimKickboard));
-            // Rest until lap button pressed
-            workoutSteps.Add(CreateWorkoutStepSwimRest(messageIndex: workoutSteps.Count));
-
-            // 5 x 100 yds on 2:00
-            workoutSteps.Add(CreateWorkoutStepSwim(messageIndex: workoutSteps.Count,
-                                    distance: 91.44f,
-                                    swimStroke: SwimStroke.Freestyle));
-
-            workoutSteps.Add(CreateWorkoutStepSwimRest(messageIndex: workoutSteps.Count,
-                                    durationType: WktStepDuration.RepetitionTime,
-                                    durationTime: 120.0f));
-
-            workoutSteps.Add(CreateWorkoutStepRepeat(messageIndex: workoutSteps.Count, repeatFrom: 4, repetitions: 5));
-
-            // Rest until lap button pressed
-            workoutSteps.Add(CreateWorkoutStepSwimRest(messageIndex: workoutSteps.Count));
-
-            // Cool Down 100 yds
-            workoutSteps.Add(CreateWorkoutStepSwim(messageIndex: workoutSteps.Count,
-                                                distance: 91.44f,
-                                                intensity: Intensity.Cooldown));
-
-            var workoutMesg = new WorkoutMesg();
-            workoutMesg.SetWktName("Pool Swim");
-            workoutMesg.SetSport(Sport.Swimming);
-            workoutMesg.SetSubSport(SubSport.LapSwimming);
-            workoutMesg.SetPoolLength(22.86f); // 25 yards
-            workoutMesg.SetPoolLengthUnit(DisplayMeasure.Statute);
-            workoutMesg.SetNumValidSteps((ushort)workoutSteps.Count);
-
-            CreateWorkout(workoutMesg, workoutSteps);
-        }
-
         static void CreateWorkout(WorkoutMesg workoutMesg, List<WorkoutStepMesg> workoutSteps)
         {
             // The combination of file type, manufacturer id, product id, and serial number should be unique.
@@ -203,49 +72,58 @@ namespace WorkoutEncode
             fileIdMesg.SetTimeCreated(new Dynastream.Fit.DateTime(System.DateTime.UtcNow));
             fileIdMesg.SetSerialNumber(serialNumber);
 
-            string filePath = $"{workoutMesg.GetWktNameAsString().Replace(' ', '_')}.fit";
-
-            // Check if the file name already exists in the current location
-            if (System.IO.File.Exists(filePath) == true)
+            try
             {
-                string fileName = $"{filePath.Substring(0, filePath.IndexOf(".fit"))}";
+
+                string downloadsFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+
+                string filePath = $"{workoutMesg.GetWktNameAsString().Replace(' ', '_')}.fit";
+
+                string destinationFilePath = Path.Combine(downloadsFolder, "Downloads", filePath);
+
+
+                // Check if the file name already exists in the current location
+                if (System.IO.File.Exists(destinationFilePath) == true)
+                {
+                    string fileName = $"{filePath.Substring(0, filePath.IndexOf(".fit"))}";
                     int copyNumber = 1;
-                    while (System.IO.File.Exists($"{fileName}({copyNumber}).fit"))
+                    while (System.IO.File.Exists($"{downloadsFolder}{fileName}({copyNumber}).fit"))
                     {
                         copyNumber++;
                     }
-                    filePath = $"{fileName}({copyNumber}).fit";
+                    destinationFilePath = Path.Combine(downloadsFolder, "Downloads", $"{fileName}({copyNumber}).fit");
+                }
+
+                // Create the output stream, this can be any type of stream, including a file or memory stream. Must have read/write access
+                FileStream fitDest = new FileStream(destinationFilePath, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
+
+                // Create a FIT Encode object
+                Encode encoder = new Encode(ProtocolVersion.V10);
+
+                // Write the FIT header to the output stream
+                encoder.Open(fitDest);
+
+                // Write the messages to the file, in the proper sequence
+                encoder.Write(fileIdMesg);
+                encoder.Write(workoutMesg);
+
+                foreach (WorkoutStepMesg workoutStep in workoutSteps)
+                {
+                    encoder.Write(workoutStep);
+                }
+
+                // Update the data size in the header and calculate the CRC
+                encoder.Close();
+
+                // Close the output stream
+                fitDest.Close();
+
+                Console.WriteLine($"Encoded FIT file {fitDest.Name}");
             }
-
-
-
-            // If there is then replace the number with int++ and save the file. Otherwise create the file with (1) 
-
-            // Create the output stream, this can be any type of stream, including a file or memory stream. Must have read/write access
-            FileStream fitDest = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
-
-            // Create a FIT Encode object
-            Encode encoder = new Encode(ProtocolVersion.V10);
-
-            // Write the FIT header to the output stream
-            encoder.Open(fitDest);
-
-            // Write the messages to the file, in the proper sequence
-            encoder.Write(fileIdMesg);
-            encoder.Write(workoutMesg);
-
-            foreach (WorkoutStepMesg workoutStep in workoutSteps)
+            catch (Exception ex)
             {
-                encoder.Write(workoutStep);
+                Console.WriteLine($"An exception occured with the message: {ex.Message}");
             }
-
-            // Update the data size in the header and calculate the CRC
-            encoder.Close();
-
-            // Close the output stream
-            fitDest.Close();
-
-            Console.WriteLine($"Encoded FIT file {fitDest.Name}");
         }
 
         private static WorkoutStepMesg CreateWorkoutStep(int messageIndex, String name = null, String notes = null, Intensity intensity = Intensity.Active, WktStepDuration durationType = WktStepDuration.Open, uint? durationValue = null, WktStepTarget targetType = WktStepTarget.Open, uint targetValue = 0, uint? customTargetValueLow = null, uint? customTargetValueHigh = null)
