@@ -1,32 +1,32 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">cycleFitMAUI</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
+﻿<div class="ps-3 bg-blue-800">
+    <div class="container mx-auto">
+        <a class="text-white" href="">cycleFitMAUI</a>
+        <button title="Navigation menu" class="" @onclick="ToggleNavMenu">
+            <span class=""></span>
         </button>
     </div>
 </div>
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+<div @onclick="ToggleNavMenu">
+    <nav class="py-3">
+        <div class="px-3">
+            <NavLink class="text-white w-fit h-fit inline-block py-2" href="" Match="NavLinkMatch.All">
+                <span class="mr-2" aria-hidden="true"></span> Home
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+        <div class="px-3">
+            <NavLink class="text-white hover:text-blue-300 py-2 inline-block" href="counter">
+                <span class="mr-2" aria-hidden="true"></span> Counter
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+        <div class="px-3">
+            <NavLink class="text-white hover:text-blue-300 py-2 inline-block" href="fetchdata">
+                <span class="mr-2" aria-hidden="true"></span> Fetch data
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="workoutcreator">
-                <span class="oi oi-plus" aria-hidden="true"></span> Workout Creator
+        <div class="px-3">
+            <NavLink class="text-white hover:text-blue-300 py-2 inline-block" href="workoutcreator">
+                <span class="mr-2" aria-hidden="true"></span> Workout Creator
             </NavLink>
         </div>
     </nav>
@@ -35,11 +35,10 @@
 @code {
     private bool collapseNavMenu = true;
 
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private string NavMenuCssClass => collapseNavMenu ? "hidden" : null;
 
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
     }
 }
-

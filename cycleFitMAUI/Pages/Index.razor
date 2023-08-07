@@ -1,7 +1,140 @@
 ﻿@page "/"
 
-<h1>Hello, World 🌎!</h1>
+<h1 class="text-3xl font-bold">Hello, World 🌎!</h1>
 
-<p>This is an app that helps you create <strong>.FIT</strong> files to be imported into various cycling training apps 🚴🏻‍♂️</p>
+<p class="mb-4">This is an app that helps you create <strong>.FIT</strong> files to be imported into various cycling training apps 🚴🏻‍♂️</p>
+
+<p>Enter your max heart rate so that your heart rate zones can be calculated or fill them out manually 🫀</p>
+<p class="mb-2"> Alternatively you can enter your age and you'll recieve estimated heart rate zones :)</p>
+
+<ErrorBoundary>
+    <ChildContent>
+        <form class="border border-black w-fit p-4 mb-4 flex flex-col" @onsubmit="calculateHRZones">
+            <label class="font-semibold" for="maxHeartRate">
+                Max Heart Rate:
+                <input @bind-value="maxHR" class="border border-gray-500 p-2" name="maxHeartRate" type="number" />
+            </label>
 
 
+
+            <label class="font-semibold" for="age">
+                Age <span class="font-light">(not required if you know your max heart rate)</span>:
+                <input @bind-value="age" class="border border-gray-500 p-2" name="age" type="number" />
+            </label>
+
+
+            <button class="w-fit self-center border rounded-md bg-purple-500 text-white p-2" type="submit">Calculate</button>
+        </form>
+    </ChildContent>
+    <ErrorContent>
+        <span class="text-red text-semibold">Only fill out age <strong>or</strong> max heart rate. Not both.</span>
+    </ErrorContent>
+</ErrorBoundary>
+<div class="border border-gray-400 p-2">
+    <table class="table-auto w-full">
+        <thead>
+            <tr>
+                <th class="border px-4 py-2 font-bold">
+                    Zone
+                </th>
+                <th class="border px-4 py-2 font-bold">
+                    Heart Rate Low
+                </th>
+                <th class="border px-4 py-2 font-bold">
+                    Heart Rate High
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="border">
+                <td class="border px-4 py-2">
+                    1
+                </td>
+                <td class="border px-4 py-2">
+                    100
+                </td>
+                <td class="border px-4 py-2">
+                    120
+                </td>
+            </tr>
+            <tr class="border">
+                <td class="border px-4 py-2">
+                    2
+                </td>
+                <td class="border px-4 py-2">
+                    121
+                </td>
+                <td class="border px-4 py-2">
+                    140
+                </td>
+            </tr>
+            <tr class="border">
+                <td class="border px-4 py-2">
+                    3
+                </td>
+                <td class="border px-4 py-2">
+                    141
+                </td>
+                <td class="border px-4 py-2">
+                    160
+                </td>
+            </tr>
+            <tr class="border">
+                <td class="border px-4 py-2">
+                    4
+                </td>
+                <td class="border px-4 py-2">
+                    161
+                </td>
+                <td class="border px-4 py-2">
+                    180
+                </td>
+            </tr>
+            <tr class="border">
+                <td class="border px-4 py-2">
+                    5
+                </td>
+                <td class="border px-4 py-2">
+                    181
+                </td>
+                <td class="border px-4 py-2">
+                    200
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<blockquote>
+    @message
+</blockquote>
+
+<button @onclick="setMessage" class="w-full border rounded-md bg-purple-500 text-white p-2" type="button">Save HR Zones</button>
+
+@code {
+    private string maxHR { get; set; }
+    private string age { get; set; }
+    string message = "Love me a max heart rate";
+
+    protected void setMessage()
+    {
+        message = "Wow! Good job setting your max heart rate! :)";
+    }
+
+    protected void calculateHRZones()
+    {
+        if (maxHR != null && age != null)
+        {
+            throw new InvalidOperationException("Can't set both maxHR and age");
+        }
+        else if (maxHR == null || age == null)
+        {
+            setMessage();
+        }
+        else
+        {
+            Console.WriteLine("Uh oh");
+        }
+    }
+}

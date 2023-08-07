@@ -1,0 +1,21 @@
+﻿
+
+<p role="status">Current count: @Count</p>
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+
+    [Parameter]
+    public int Count {get; set;}
+
+        public void IncrementCount()
+        {
+            Count++;
+
+            if (Count > 4)
+            {
+                throw new Exception("Nooooo");
+            }
+        }
+    }
+

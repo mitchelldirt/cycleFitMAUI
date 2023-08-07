@@ -91,7 +91,7 @@ namespace cycleFitMAUI.Data
                     {
                         copyNumber++;
                     }
-                    destinationFilePath = Path.Combine(downloadsFolder, "Downloads", $"{fileName}({copyNumber}).fit");
+                    destinationFilePath = Path.Combine(downloadsFolder, "Downloads", $"{fileName} ({copyNumber}).fit");
                 }
 
                 // Create the output stream, this can be any type of stream, including a file or memory stream. Must have read/write access

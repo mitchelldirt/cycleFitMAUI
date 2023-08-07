@@ -60,9 +60,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <RazorComponent Update="Pages\WorkoutCreator.razor">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </RazorComponent>
+      <None Remove="Styles\" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Styles\" />
     </ItemGroup>
 </Project>
