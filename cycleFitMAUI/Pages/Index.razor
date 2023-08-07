@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using cycleFitMAUI.Shared.Components
 
 <h1 class="text-3xl font-bold">Hello, World 🌎!</h1>
 
@@ -9,22 +10,7 @@
 
 <ErrorBoundary>
     <ChildContent>
-        <form class="border border-black w-fit p-4 mb-4 flex flex-col" @onsubmit="calculateHRZones">
-            <label class="font-semibold" for="maxHeartRate">
-                Max Heart Rate:
-                <input @bind-value="maxHR" class="border border-gray-500 p-2" name="maxHeartRate" type="number" />
-            </label>
-
-
-
-            <label class="font-semibold" for="age">
-                Age <span class="font-light">(not required if you know your max heart rate)</span>:
-                <input @bind-value="age" class="border border-gray-500 p-2" name="age" type="number" />
-            </label>
-
-
-            <button class="w-fit self-center border rounded-md bg-purple-500 text-white p-2" type="submit">Calculate</button>
-        </form>
+        <UserInfo />
     </ChildContent>
     <ErrorContent>
         <span class="text-red text-semibold">Only fill out age <strong>or</strong> max heart rate. Not both.</span>
@@ -112,9 +98,7 @@
 
 <button @onclick="setMessage" class="w-full border rounded-md bg-purple-500 text-white p-2" type="button">Save HR Zones</button>
 
-@code {
-    private string maxHR { get; set; }
-    private string age { get; set; }
+@code { 
     string message = "Love me a max heart rate";
 
     protected void setMessage()
@@ -122,19 +106,5 @@
         message = "Wow! Good job setting your max heart rate! :)";
     }
 
-    protected void calculateHRZones()
-    {
-        if (maxHR != null && age != null)
-        {
-            throw new InvalidOperationException("Can't set both maxHR and age");
-        }
-        else if (maxHR == null || age == null)
-        {
-            setMessage();
-        }
-        else
-        {
-            Console.WriteLine("Uh oh");
-        }
-    }
+    
 }

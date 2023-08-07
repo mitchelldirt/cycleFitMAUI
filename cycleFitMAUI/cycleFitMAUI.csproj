@@ -61,8 +61,10 @@
 
     <ItemGroup>
       <None Remove="Styles\" />
+      <None Remove="Shared\Components\" />
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Styles\" />
+      <Folder Include="Shared\Components\" />
     </ItemGroup>
 </Project>

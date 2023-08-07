@@ -1,0 +1,41 @@
+﻿<form class="border border-black w-fit p-4 mb-4 flex flex-col" @onsubmit="CalculateHRZones">
+    <label class="font-semibold" for="maxHeartRate">
+        Max Heart Rate:
+        <input @bind-value="MaxHR" class="border border-gray-500 p-2" name="maxHeartRate" type="number" />
+    </label>
+
+
+
+    <label class="font-semibold" for="age">
+        Age <span class="font-light">(not required if you know your max heart rate)</span>:
+        <input @bind-value="Age" class="border border-gray-500 p-2" name="age" type="number" />
+    </label>
+
+
+    <button class="w-fit self-center border rounded-md bg-purple-500 text-white p-2" type="submit">Calculate</button>
+</form>
+
+@code {
+    [Parameter]
+    public int MaxHR { get; set; }
+    
+    [Parameter]
+    public int Age { get; set; }
+
+    public void CalculateHRZones()
+    {
+        if (MaxHR != 0 && Age != 0)
+        {
+            throw new InvalidOperationException("Can't set both maxHR and age");
+        }
+        else if (MaxHR == 0 || Age == 0)
+        {
+
+        }
+        else
+        {
+            Console.WriteLine("Uh oh");
+        }
+    }
+}
+
