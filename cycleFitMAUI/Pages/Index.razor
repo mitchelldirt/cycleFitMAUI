@@ -1,21 +1,35 @@
 ﻿@page "/"
 @using cycleFitMAUI.Shared.Components
+@using cycleFitMAUI.Data
+@using System.Text.Json
+
 
 <h1 class="text-3xl font-bold">Hello, World 🌎!</h1>
 
-<p class="mb-4">This is an app that helps you create <strong>.FIT</strong> files to be imported into various cycling training apps 🚴🏻‍♂️</p>
+<p class="mb-4 text-xl">This is an app that helps you create <strong>.FIT</strong> files to be imported into various cycling training apps 🚴🏻‍♂️</p>
 
-<p>Enter your max heart rate so that your heart rate zones can be calculated or fill them out manually 🫀</p>
-<p class="mb-2"> Alternatively you can enter your age and you'll recieve estimated heart rate zones :)</p>
+<p class="text-xl">Enter your max heart rate so that your heart rate zones can be calculated or fill them out manually 🫀</p>
+<p class="mb-2 text-xl"> Alternatively you can enter your age and you'll recieve estimated heart rate zones :)</p>
 
-<ErrorBoundary>
+<ErrorBoundary @ref="HeartRateErr">
     <ChildContent>
         <UserInfo />
     </ChildContent>
     <ErrorContent>
-        <span class="text-red text-semibold">Only fill out age <strong>or</strong> max heart rate. Not both.</span>
+        <div class="flex flex-row gap-8 my-6">
+            <p class="static rounded text-white bg-red-500 text-semibold p-3 text-2xl">
+                Only fill out age <strong>or</strong> max heart rate. Not both.
+            </p>
+            <button class="text-2xl px-4 hover:text-green-200 bg-gray-400 text-white rounded-md border-2 border-gray-600" @onclick="RecoverHRError">Try again</button>
+        </div>
     </ErrorContent>
 </ErrorBoundary>
+
+<label for="editTable" class="text-xl mb-2  ">
+    Manually Edit Heart Rate Zones Table
+    <input @onclick="RemoveDisabledAttributes" name="editTable" type="checkbox" class="text-xl" />
+</label>
+
 <div class="border border-gray-400 p-2">
     <table class="table-auto w-full">
         <thead>
@@ -37,10 +51,10 @@
                     1
                 </td>
                 <td class="border px-4 py-2">
-                    100
+                    <input class="w-full" disabled name="HR" type="number" />
                 </td>
                 <td class="border px-4 py-2">
-                    120
+                    <input class="w-full" disabled name="HR" type="number" />
                 </td>
             </tr>
             <tr class="border">
@@ -48,10 +62,10 @@
                     2
                 </td>
                 <td class="border px-4 py-2">
-                    121
+                    <input class="w-full" disabled name="HR" type="number" />
                 </td>
                 <td class="border px-4 py-2">
-                    140
+                    <input class="w-full" disabled name="HR" type="number" />
                 </td>
             </tr>
             <tr class="border">
@@ -59,10 +73,10 @@
                     3
                 </td>
                 <td class="border px-4 py-2">
-                    141
+                    <input class="w-full" disabled name="HR" type="number" />
                 </td>
                 <td class="border px-4 py-2">
-                    160
+                    <input class="w-full" disabled name="HR" type="number" />
                 </td>
             </tr>
             <tr class="border">
@@ -70,10 +84,10 @@
                     4
                 </td>
                 <td class="border px-4 py-2">
-                    161
+                    <input class="w-full" disabled name="HR" type="number" />
                 </td>
                 <td class="border px-4 py-2">
-                    180
+                    <input value="UserHRZoneswah" class="w-full" disabled name="HR" type="number" />
                 </td>
             </tr>
             <tr class="border">
@@ -81,30 +95,53 @@
                     5
                 </td>
                 <td class="border px-4 py-2">
-                    181
+                    <input class="w-full" disabled name="HR" type="number" />
                 </td>
                 <td class="border px-4 py-2">
-                    200
+                    <input class="w-full" disabled name="HR" type="number" />
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
 
+<button @onclick="SaveHRData" class="text-2xl w-full border rounded-md bg-purple-500 text-white p-2" type="button">Save HR Zones</button>
 
-<blockquote>
-    @message
-</blockquote>
+@code {
+#nullable enable
+    public bool hasHRData = Preferences.Default.ContainsKey("HRData");
 
-<button @onclick="setMessage" class="w-full border rounded-md bg-purple-500 text-white p-2" type="button">Save HR Zones</button>
-
-@code { 
-    string message = "Love me a max heart rate";
-
-    protected void setMessage()
+    protected override async void OnParametersSet()
     {
-        message = "Wow! Good job setting your max heart rate! :)";
+        if (hasHRData == false) return;
+
+        // Otherwise we need to deserialize the JSON and then create an instance of the HeartRateZones class to pull in information and fill out the chart.
+        // Going to need another dom function for that to locate each input with name HR and fill in in the correct order
+        string HRData = Preferences.Default.Get("HRData", "");
+        HeartRateZones? UserHRZones = JsonSerializer.Deserialize<HeartRateZones>(HRData);
+
+        await jsRuntime.InvokeVoidAsync("domHelper.addHeartRateData", UserHRZones);
     }
 
-    
+
+    private ErrorBoundary? HeartRateErr;
+
+    protected void RecoverHRError()
+    {
+        HeartRateErr?.Recover();
+    }
+
+    private async Task RemoveDisabledAttributes()
+    {
+        await jsRuntime.InvokeVoidAsync("domHelper.removeDisabledAttribute");
+    }
+
+    private async Task SaveHRData()
+    {
+        string HRData = await jsRuntime.InvokeAsync<string>("domHelper.getHRData");
+        Preferences.Default.Set("HRData", HRData);
+    }
+
+    [Inject]
+    private IJSRuntime jsRuntime { get; set; }
 }

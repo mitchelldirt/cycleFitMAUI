@@ -185,52 +185,20 @@ namespace cycleFitMAUI.Data
 
             return workoutStepMesg;
         }
+    }
 
-        private static WorkoutStepMesg CreateWorkoutStepSwim(int messageIndex, float distance, String name = null, String notes = null, Intensity intensity = Intensity.Active, SwimStroke swimStroke = SwimStroke.Invalid, WorkoutEquipment? equipment = null)
-        {
-            var workoutStepMesg = new WorkoutStepMesg();
-            workoutStepMesg.SetMessageIndex((ushort)messageIndex);
+    public class HeartRateZones
+    {
+        public Zone Zone1 { get; set; }
+        public Zone Zone2 { get; set; }
+        public Zone Zone3 { get; set; }
+        public Zone Zone4 { get; set; }
+        public Zone Zone5 { get; set; }
+    }
 
-            if (name != null)
-            {
-                workoutStepMesg.SetWktStepName(name);
-            }
-
-            if (notes != null)
-            {
-                workoutStepMesg.SetNotes(notes);
-            }
-
-            workoutStepMesg.SetIntensity(intensity);
-
-            workoutStepMesg.SetDurationType(WktStepDuration.Distance);
-            workoutStepMesg.SetDurationDistance(distance);
-
-            workoutStepMesg.SetTargetType(WktStepTarget.SwimStroke);
-
-            workoutStepMesg.SetTargetStrokeType((byte)swimStroke);
-
-            if (equipment.HasValue)
-            {
-                workoutStepMesg.SetEquipment(equipment);
-            }
-
-            return workoutStepMesg;
-        }
-
-        private static WorkoutStepMesg CreateWorkoutStepSwimRest(int messageIndex, WktStepDuration durationType = WktStepDuration.Open, float? durationTime = null)
-        {
-            var workoutStepMesg = new WorkoutStepMesg();
-            workoutStepMesg.SetMessageIndex((ushort)messageIndex);
-
-            workoutStepMesg.SetDurationType(durationType);
-            workoutStepMesg.SetDurationTime(durationTime);
-
-            workoutStepMesg.SetTargetType(WktStepTarget.Open);
-
-            workoutStepMesg.SetIntensity(Intensity.Rest);
-
-            return workoutStepMesg;
-        }
+    public class Zone
+    {
+        public int Low { get; set; }
+        public int High { get; set; }
     }
 }

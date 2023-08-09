@@ -1,18 +1,18 @@
 ﻿<form class="border border-black w-fit p-4 mb-4 flex flex-col" @onsubmit="CalculateHRZones">
-    <label class="font-semibold" for="maxHeartRate">
+    <label class="font-semibold text-xl" for="maxHeartRate">
         Max Heart Rate:
-        <input @bind-value="MaxHR" class="border border-gray-500 p-2" name="maxHeartRate" type="number" />
+        <input @bind-value="MaxHR" class="border border-gray-500 p-2 text-xl" name="maxHeartRate" type="number" />
     </label>
 
 
 
-    <label class="font-semibold" for="age">
+    <label class="font-semibold text-xl" for="age">
         Age <span class="font-light">(not required if you know your max heart rate)</span>:
-        <input @bind-value="Age" class="border border-gray-500 p-2" name="age" type="number" />
+        <input @bind-value="Age" class="border border-gray-500 p-2 text-xl" name="age" type="number" />
     </label>
 
 
-    <button class="w-fit self-center border rounded-md bg-purple-500 text-white p-2" type="submit">Calculate</button>
+    <button class="text-xl w-fit self-center border rounded-md bg-purple-500 text-white p-2" type="submit">Calculate</button>
 </form>
 
 @code {
@@ -30,7 +30,7 @@
         }
         else if (MaxHR == 0 || Age == 0)
         {
-
+          
         }
         else
         {
