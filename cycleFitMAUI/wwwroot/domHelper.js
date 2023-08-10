@@ -22,9 +22,11 @@
     },
 
     getHRData: function () {
+        document.querySelector("#saveHRSpinner").classList.remove("hidden");
+
         var heartRates = document.getElementsByName("HR");
        
-        return JSON.stringify({
+        let HRData = JSON.stringify({
             Zone1: {
                 Low: Number(heartRates[0].value),
                 High: Number(heartRates[1].value)
@@ -46,7 +48,12 @@
                     High: Number(heartRates[9].value)
             }
         })
-    
+
+        setTimeout(() => {
+            document.querySelector("#saveHRSpinner").classList.add("hidden");
+        }, 3000);
+
+        return HRData;
      }
 };
 
