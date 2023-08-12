@@ -1,4 +1,6 @@
-﻿<form class="border border-black w-fit p-4 mb-4 flex flex-col" @onsubmit="CalculateHRZones">
+﻿@using cycleFitMAUI.Data
+
+<form class="border border-black w-fit p-4 mb-4 flex flex-col" @onsubmit="CalculateHRZones">
     <label class="font-semibold text-xl" for="maxHeartRate">
         Max Heart Rate:
         <input @bind-value="MaxHR" class="border border-gray-500 p-2 text-xl" name="maxHeartRate" type="number" />
@@ -18,24 +20,57 @@
 @code {
     [Parameter]
     public int MaxHR { get; set; }
-    
+
     [Parameter]
     public int Age { get; set; }
 
-    public void CalculateHRZones()
+    async public void CalculateHRZones()
     {
-        if (MaxHR != 0 && Age != 0)
+        if (Age == 0 && MaxHR == 0)
         {
-            throw new InvalidOperationException("Can't set both maxHR and age");
+            throw new InvalidDataException("No data present");
         }
-        else if (MaxHR == 0 || Age == 0)
+
+
+        if (Age != 0 && MaxHR == 0)
         {
-          
+            MaxHR = 220 - Age;
         }
-        else
+
+        HeartRateZones userZones = new HeartRateZones
         {
-            Console.WriteLine("Uh oh");
-        }
+            Zone1 = new Zone
+            {
+                Low = MaxHR * .5,
+                High = MaxHR * .6
+            },
+            Zone2 = new Zone
+            {
+                Low = MaxHR * .6,
+                High = MaxHR * .7
+            },
+            Zone3 = new Zone
+            {
+                Low = MaxHR * .7,
+                High = MaxHR * .8
+            },
+            Zone4 = new Zone
+            {
+                Low = MaxHR * .8,
+                High = MaxHR * .9
+            },
+            Zone5 = new Zone
+            {
+                Low = MaxHR * .9,
+                High = MaxHR
+            },
+        };
+
+        await jsRuntime.InvokeVoidAsync("domHelper.addHeartRateData", userZones);
     }
-}
+
+
+    [Inject]
+    private IJSRuntime jsRuntime { get; set; }
+    }
 

@@ -51,7 +51,7 @@
 
         setTimeout(() => {
             document.querySelector("#saveHRSpinner").classList.add("hidden");
-        }, 3000);
+        }, 2000);
 
         return HRData;
      }
