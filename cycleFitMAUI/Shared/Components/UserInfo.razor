@@ -1,6 +1,6 @@
 ﻿@using cycleFitMAUI.Data
 
-<form class="border border-black w-fit p-4 mb-4 flex flex-col" @onsubmit="CalculateHRZones">
+<form class="border border-black p-4 mb-4 flex flex-col w-fit" @onsubmit="CalculateHRZones">
     <label class="font-semibold text-xl" for="maxHeartRate">
         Max Heart Rate:
         <input @bind-value="MaxHR" class="border border-gray-500 p-2 text-xl" name="maxHeartRate" type="number" />

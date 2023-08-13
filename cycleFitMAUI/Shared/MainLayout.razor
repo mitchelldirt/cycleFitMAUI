@@ -1,20 +1,17 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
+<div class="grid grid-cols-6 w-screen">
+    <div class="col-span-1 bg-gray-800 h-screen w-full">
         <NavMenu />
     </div>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+    <main class="col-span-5 flex flex-col w-full">
+        <div class="h-fit w-full flex justify-end bg-gray-400">
+            <a class="text-right text-blue-600 pr-4" href="https://github.com/mitchelldirt/cycleFitMAUI" target="_blank">About</a>
         </div>
-
-        
-            <article class="content px-4">
+            <article class="px-4 w-full">
                 @Body
             </article>
-        
 	    </main>
 </div>
 

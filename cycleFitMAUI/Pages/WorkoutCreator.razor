@@ -6,12 +6,12 @@
 <h1>Create your cycling workout</h1>
 <p>@greeting</p>
 
-<button class="btn btn-primary" @onclick="createTheWorkout">Click me to have a workout made!</button>
+<button class="" @onclick="CreateTheWorkout">Click me to have a workout made!</button>
 
 @code {
     string greeting = "Hey ;)";
 
-    protected void createTheWorkout()
+    protected void CreateTheWorkout()
     {
         cycleWorkoutService.Main();
     }

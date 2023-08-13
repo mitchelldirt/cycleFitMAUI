@@ -2,37 +2,36 @@
 @using cycleFitMAUI.Shared.Components
 @using cycleFitMAUI.Data
 @using System.Text.Json
+<main class="">
+    <h1 class="text-3xl font-bold">Hello, World 🌎!</h1>
 
+    <p class="mb-4 text-xl">This is an app that helps you create <strong>.FIT</strong> files to be imported into various cycling training apps 🚴🏻‍♂️</p>
 
-<h1 class="text-3xl font-bold">Hello, World 🌎!</h1>
+    <p class="text-xl">Enter your max heart rate <strong>OR</strong> your age so that your heart rate zones can be calculated or fill them out manually 🫀</p>
+    <p class="mb-2 text-xl"> If you enter both heart rate and age then the max heart rate will be used :)</p>
 
-<p class="mb-4 text-xl">This is an app that helps you create <strong>.FIT</strong> files to be imported into various cycling training apps 🚴🏻‍♂️</p>
+    <ErrorBoundary @ref="HeartRateErr">
+        <ChildContent>
+            <UserInfo/>
+        </ChildContent>
+        <ErrorContent>
+            <div class="flex flex-row gap-8 my-6">
+                <p class="static rounded text-white bg-red-500 text-semibold p-3 text-2xl">
+                    Only fill out age <strong>or</strong> max heart rate. Not both.
+                </p>
+                <button class="text-2xl px-4 hover:text-green-200 bg-gray-400 text-white rounded-md border-2 border-gray-600" @onclick="RecoverHRError">Try again</button>
+            </div>
+        </ErrorContent>
+    </ErrorBoundary>
 
-<p class="text-xl">Enter your max heart rate so that your heart rate zones can be calculated or fill them out manually 🫀</p>
-<p class="mb-2 text-xl"> Alternatively you can enter your age and you'll recieve estimated heart rate zones :)</p>
+    <label for="editTable" class="text-xl mb-2  ">
+        Manually Edit Heart Rate Zones Table
+        <input @onclick="RemoveReadOnlyAttributes" name="editTable" type="checkbox" class="text-xl"/>
+    </label>
 
-<ErrorBoundary @ref="HeartRateErr">
-    <ChildContent>
-        <UserInfo />
-    </ChildContent>
-    <ErrorContent>
-        <div class="flex flex-row gap-8 my-6">
-            <p class="static rounded text-white bg-red-500 text-semibold p-3 text-2xl">
-                Only fill out age <strong>or</strong> max heart rate. Not both.
-            </p>
-            <button class="text-2xl px-4 hover:text-green-200 bg-gray-400 text-white rounded-md border-2 border-gray-600" @onclick="RecoverHRError">Try again</button>
-        </div>
-    </ErrorContent>
-</ErrorBoundary>
-
-<label for="editTable" class="text-xl mb-2  ">
-    Manually Edit Heart Rate Zones Table
-    <input @onclick="RemoveReadOnlyAttributes" name="editTable" type="checkbox" class="text-xl" />
-</label>
-
-<div class="border border-gray-400 p-2">
-    <table class="table-auto w-full">
-        <thead>
+    <div class="border border-gray-400 p-2 w-10/12">
+        <table class="table-auto w-full">
+            <thead>
             <tr>
                 <th class="border px-4 py-2 font-bold">
                     Zone
@@ -44,17 +43,17 @@
                     Heart Rate High
                 </th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             <tr class="border">
                 <td class="border px-4 py-2">
                     1
                 </td>
                 <td class="border px-4 py-2">
-                    <input class="w-full" readonly name="HR" type="number" />
+                    <input class="w-full" readonly name="HR" type="number"/>
                 </td>
                 <td class="border px-4 py-2">
-                    <input class="w-full" readonly name="HR" type="number" />
+                    <input class="w-full" readonly name="HR" type="number"/>
                 </td>
             </tr>
             <tr class="border">
@@ -62,10 +61,10 @@
                     2
                 </td>
                 <td class="border px-4 py-2">
-                    <input class="w-full" readonly name="HR" type="number" />
+                    <input class="w-full" readonly name="HR" type="number"/>
                 </td>
                 <td class="border px-4 py-2">
-                    <input class="w-full" readonly name="HR" type="number" />
+                    <input class="w-full" readonly name="HR" type="number"/>
                 </td>
             </tr>
             <tr class="border">
@@ -73,10 +72,10 @@
                     3
                 </td>
                 <td class="border px-4 py-2">
-                    <input class="w-full" readonly name="HR" type="number" />
+                    <input class="w-full" readonly name="HR" type="number"/>
                 </td>
                 <td class="border px-4 py-2">
-                    <input class="w-full" readonly name="HR" type="number" />
+                    <input class="w-full" readonly name="HR" type="number"/>
                 </td>
             </tr>
             <tr class="border">
@@ -84,10 +83,10 @@
                     4
                 </td>
                 <td class="border px-4 py-2">
-                    <input class="w-full" readonly name="HR" type="number" />
+                    <input class="w-full" readonly name="HR" type="number"/>
                 </td>
                 <td class="border px-4 py-2">
-                    <input value="UserHRZoneswah" class="w-full" readonly name="HR" type="number" />
+                    <input value="UserHRZoneswah" class="w-full" readonly name="HR" type="number"/>
                 </td>
             </tr>
             <tr class="border">
@@ -95,59 +94,62 @@
                     5
                 </td>
                 <td class="border px-4 py-2">
-                    <input class="w-full" readonly name="HR" type="number" />
+                    <input class="w-full" readonly name="HR" type="number"/>
                 </td>
                 <td class="border px-4 py-2">
-                    <input class="w-full" readonly name="HR" type="number" />
+                    <input class="w-full" readonly name="HR" type="number"/>
                 </td>
             </tr>
-        </tbody>
-    </table>
-</div>
-
-<button @onclick="SaveHRData" class="flex flex-row items-center justify-center gap-2 text-2xl w-full border rounded-md bg-purple-500 text-white p-2">
-    <svg id="saveHRSpinner" class="hidden animate-spin h-5 w-5 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 4.418 3.582 8 8 8v-4.01l-2 .004v-.003z"></path>
-    </svg>
-    Save HR Zones
-</button>
+            </tbody>
+        </table>
+    </div>
+    
+    <button @onclick="SaveHRData" class="flex flex-row items-center justify-center gap-2 text-2xl w-10/12 border rounded-md bg-purple-500 text-white">
+                <svg id="saveHRSpinner" class="hidden animate-spin h-5 w-5 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 4.418 3.582 8 8 8v-4.01l-2 .004v-.003z"></path>
+                </svg>
+                Save HR Zones
+            </button>
+</main>
 
 @code {
 #nullable enable
     public bool hasHRData = Preferences.Default.ContainsKey("HRData");
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
         {
-            if (firstRender) {
-                if (hasHRData == false) return;
-                // Otherwise we need to deserialize the JSON and then create an instance of the HeartRateZones class to pull in information and fill out the chart.
-                // Going to need another dom function for that to locate each input with name HR and fill in in the correct order
-                string HRData = Preferences.Default.Get("HRData", "");
-                HeartRateZones? UserHRZones = JsonSerializer.Deserialize<HeartRateZones>(HRData);
+            if (hasHRData == false) return;
+    // Otherwise we need to deserialize the JSON and then create an instance of the HeartRateZones class to pull in information and fill out the chart.
+    // Going to need another dom function for that to locate each input with name HR and fill in in the correct order
+            string HRData = Preferences.Default.Get("HRData", "");
+            HeartRateZones? UserHRZones = JsonSerializer.Deserialize<HeartRateZones>(HRData);
 
-                await jsRuntime.InvokeVoidAsync("domHelper.addHeartRateData", UserHRZones);
-            }
+            await jsRuntime.InvokeVoidAsync("domHelper.addHeartRateData", UserHRZones);
         }
-
-        private ErrorBoundary? HeartRateErr;
-
-        protected void RecoverHRError()
-        {
-            HeartRateErr?.Recover();
-        }
-
-        private async Task RemoveReadOnlyAttributes()
-        {
-            await jsRuntime.InvokeVoidAsync("domHelper.removeReadOnlyAttribute");
-        }
-
-        private async Task SaveHRData()
-        {
-            string HRData = await jsRuntime.InvokeAsync<string>("domHelper.getHRData");
-            Preferences.Default.Set("HRData", HRData);
-        }
-
-        [Inject]
-        private IJSRuntime jsRuntime { get; set; }
     }
+
+    private ErrorBoundary? HeartRateErr;
+
+    protected void RecoverHRError()
+    {
+        HeartRateErr?.Recover();
+    }
+
+    private async Task RemoveReadOnlyAttributes()
+    {
+        await jsRuntime.InvokeVoidAsync("domHelper.removeReadOnlyAttribute");
+    }
+
+    private async Task SaveHRData()
+    {
+        string HRData = await jsRuntime.InvokeAsync<string>("domHelper.getHRData");
+        Preferences.Default.Set("HRData", HRData);
+    }
+
+    [Inject]
+    private IJSRuntime jsRuntime { get; set; }
+
+}
