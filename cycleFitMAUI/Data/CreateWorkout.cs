@@ -23,30 +23,57 @@ namespace cycleFitMAUI.Data
         {
             CreateBikeTempoWorkout();
         }
-
-        static void CreateBikeTempoWorkout()
+/*
+ * CREATE BIKE WORKOUT (this should be more flexible)
+ * Heart Rate Zones (provide a default in case of failure that just uses 190 as the max HR... hard code this)
+ * Title
+ * Workout Steps... Provide an array of WorkoutStepMesg objects
+ * {
+ *  durationType,
+ *  durationValue,
+ *  targetType,
+ *  targetLow,
+ *  targetHigh
+ *  intensity
+ * }
+ *
+ * 1. create the workoutSteps List
+ * 2. Add each workout step message to the workout steps
+ * 3. make new workout message
+ * 4. set the other pieces of information
+ * 5. run CreateWorkout
+ */
+        private static void CreateBikeTempoWorkout()
         {
             var workoutSteps = new List<WorkoutStepMesg>();
 
             workoutSteps.Add(CreateWorkoutStep(messageIndex: workoutSteps.Count,
-                                       durationType: WktStepDuration.Time,
-                                       durationValue: 600000, // milliseconds
-                                       targetType: WktStepTarget.HeartRate,
-                                       customTargetValueLow: 120,
-                                       customTargetValueHigh: 150,
-                                       intensity: Intensity.Warmup));
+                durationType: WktStepDuration.Time,
+                durationValue: 900_000, // milliseconds = 15 minutes
+                targetType: WktStepTarget.HeartRate,
+                customTargetValueLow: 120,
+                customTargetValueHigh: 150,
+                intensity: Intensity.Warmup));
 
             workoutSteps.Add(CreateWorkoutStep(messageIndex: workoutSteps.Count,
-                                                durationType: WktStepDuration.Time,
-                                                durationValue: 2400000, // milliseconds
-                                                targetType: WktStepTarget.HeartRate,
-                                                customTargetValueLow: 150, customTargetValueHigh: 170));
+                durationType: WktStepDuration.Time,
+                durationValue: 3_600_000, // milliseconds = 60 minutes
+                targetType: WktStepTarget.HeartRate,
+                customTargetValueLow: 150,
+                customTargetValueHigh: 170,
+                intensity: Intensity.Active));
 
             workoutSteps.Add(CreateWorkoutStep(messageIndex: workoutSteps.Count,
-                                                intensity: Intensity.Cooldown));
+                durationType: WktStepDuration.Time,
+                durationValue: 900_000, // milliseconds = 15 minutes
+                targetType: WktStepTarget.HeartRate,
+                customTargetValueLow: 120,
+                customTargetValueHigh: 150,
+                intensity: Intensity.Cooldown
+            ));
 
             var workoutMesg = new WorkoutMesg();
-            workoutMesg.SetWktName("Tempo Bike YES");
+            workoutMesg.SetWktName("60MinutesTempo");
             workoutMesg.SetSport(Sport.Cycling);
             workoutMesg.SetSubSport(SubSport.Invalid);
             workoutMesg.SetNumValidSteps((ushort)workoutSteps.Count);
@@ -74,7 +101,6 @@ namespace cycleFitMAUI.Data
 
             try
             {
-
                 string downloadsFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
                 string filePath = $"{workoutMesg.GetWktNameAsString().Replace(' ', '_')}.fit";
@@ -91,11 +117,13 @@ namespace cycleFitMAUI.Data
                     {
                         copyNumber++;
                     }
+
                     destinationFilePath = Path.Combine(downloadsFolder, "Downloads", $"{fileName} ({copyNumber}).fit");
                 }
 
                 // Create the output stream, this can be any type of stream, including a file or memory stream. Must have read/write access
-                FileStream fitDest = new FileStream(destinationFilePath, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
+                FileStream fitDest = new FileStream(destinationFilePath, FileMode.Create, FileAccess.ReadWrite,
+                    FileShare.Read);
 
                 // Create a FIT Encode object
                 Encode encoder = new Encode(ProtocolVersion.V10);
@@ -126,7 +154,10 @@ namespace cycleFitMAUI.Data
             }
         }
 
-        private static WorkoutStepMesg CreateWorkoutStep(int messageIndex, String name = null, String notes = null, Intensity intensity = Intensity.Active, WktStepDuration durationType = WktStepDuration.Open, uint? durationValue = null, WktStepTarget targetType = WktStepTarget.Open, uint targetValue = 0, uint? customTargetValueLow = null, uint? customTargetValueHigh = null)
+        private static WorkoutStepMesg CreateWorkoutStep(int messageIndex, String name = null, String notes = null,
+            Intensity intensity = Intensity.Active, WktStepDuration durationType = WktStepDuration.Open,
+            uint? durationValue = null, WktStepTarget targetType = WktStepTarget.Open, uint targetValue = 0,
+            uint? customTargetValueLow = null, uint? customTargetValueHigh = null)
         {
             if (durationType == WktStepDuration.Invalid)
             {
