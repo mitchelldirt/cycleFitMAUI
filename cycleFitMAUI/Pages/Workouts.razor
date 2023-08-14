@@ -1,0 +1,16 @@
+@page "/workouts"
+
+@using cycleFitMAUI.Data
+@inject WorkoutService CycleWorkoutService
+
+<h1>Pre-made Workouts!</h1>
+<p>Here are some workouts I made that I think you may like :)</p>
+
+<button class="" @onclick="CreateTheWorkout">Click me to have a workout made!</button>
+
+@code {
+    private void CreateTheWorkout()
+    {
+        CycleWorkoutService.Main();
+    }
+}

@@ -7,7 +7,7 @@
 
     <p class="mb-4 text-xl">This is an app that helps you create <strong>.FIT</strong> files to be imported into various cycling training apps 🚴🏻‍♂️</p>
 
-    <p class="text-xl">Enter your max heart rate <strong>OR</strong> your age so that your heart rate zones can be calculated or fill them out manually 🫀</p>
+    <p class="text-xl mb-2">Enter your max heart rate <strong>OR</strong> your age so that your heart rate zones can be calculated or fill them out manually 🫀</p>
     <p class="mb-2 text-xl"> If you enter both heart rate and age then the max heart rate will be used :)</p>
 
     <ErrorBoundary @ref="HeartRateErr">
@@ -29,7 +29,7 @@
         <input @onclick="RemoveReadOnlyAttributes" name="editTable" type="checkbox" class="text-xl"/>
     </label>
 
-    <div class="border border-gray-400 p-2 w-10/12">
+    <div class="border border-gray-400 p-2 w-11/12 mb-4">
         <table class="table-auto w-full">
             <thead>
             <tr>
@@ -103,14 +103,14 @@
             </tbody>
         </table>
     </div>
-    
-    <button @onclick="SaveHRData" class="flex flex-row items-center justify-center gap-2 text-2xl w-10/12 border rounded-md bg-purple-500 text-white">
-                <svg id="saveHRSpinner" class="hidden animate-spin h-5 w-5 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 4.418 3.582 8 8 8v-4.01l-2 .004v-.003z"></path>
-                </svg>
-                Save HR Zones
-            </button>
+
+    <button @onclick="SaveHRData" class="px-4 flex flex-row items-center justify-center gap-2 text-2xl w-11/12 border rounded-md bg-purple-500 text-white">
+        <svg id="saveHRSpinner" class="hidden animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 4.418 3.582 8 8 8v-4.01l-2 .004v-.003z"></path>
+        </svg>
+        <p>Save HR Zones</p>
+    </button>
 </main>
 
 @code {
