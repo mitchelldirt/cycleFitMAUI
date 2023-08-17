@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Bumptech.Glide.Request.Target;
 using Dynastream.Fit;
 
 namespace cycleFitMAUI.Data
@@ -43,6 +44,31 @@ namespace cycleFitMAUI.Data
  * 4. set the other pieces of information
  * 5. run CreateWorkout
  */
+        public static void CreateBikeWorkout(string title, List<WorkoutStep> steps)
+        {   
+            var workoutSteps = new List<WorkoutStepMesg>();
+
+            foreach (var step in steps)
+            {
+                workoutSteps.Add(CreateWorkoutStep(
+                    messageIndex: workoutSteps.Count,
+                    durationType: step.DurationType,
+                    durationValue: step.DurationValue,
+                    targetType: step.TargetType,
+                    customTargetValueLow: Convert.ToUInt32(Math.Ceiling(step.Zone.Low)),
+                    customTargetValueHigh: Convert.ToUInt32(Math.Ceiling(step.Zone.High)),
+                    intensity: step.Intensity
+                    ));
+            }
+            
+            var workoutMesg = new WorkoutMesg();
+            workoutMesg.SetWktName(title);
+            workoutMesg.SetSport(Sport.Cycling);
+            workoutMesg.SetSubSport(SubSport.Invalid);
+            workoutMesg.SetNumValidSteps((ushort)workoutSteps.Count);
+
+            CreateWorkout(workoutMesg, workoutSteps);
+        }
         private static void CreateBikeTempoWorkout()
         {
             var workoutSteps = new List<WorkoutStepMesg>();
@@ -231,5 +257,14 @@ namespace cycleFitMAUI.Data
     {
         public double Low { get; set; }
         public double High { get; set; }
+    }
+    
+    public class WorkoutStep
+    {
+         public WktStepDuration DurationType { get; set; }
+         public uint DurationValue { get; set; }
+         public WktStepTarget TargetType { get; set; }
+         public Zone Zone { get; set; }
+         public Intensity Intensity { get; set; }
     }
 }
