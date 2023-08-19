@@ -1,7 +1,7 @@
 @page "/workouts"
 
 @using cycleFitMAUI.Data
-@inject WorkoutService CycleWorkoutService
+@using System.Text.Json
 
 <h1>Pre-made Workouts!</h1>
 <p>Here are some workouts I made that I think you may like :)</p>
@@ -9,8 +9,14 @@
 <button class="" @onclick="CreateTheWorkout">Click me to have a workout made!</button>
 
 @code {
-    private void CreateTheWorkout()
+#nullable enable
+
+    private static void CreateTheWorkout()
     {
-        CycleWorkoutService.Main();
+        (int, HeartRateZones) hrInfo = WorkoutService.RetrieveUserHrZones();
+
+        if (hrInfo.Item1 == 400) return;
+        
+        SampleWorkouts.FourEightMinute(hrInfo.Item2);
     }
 }

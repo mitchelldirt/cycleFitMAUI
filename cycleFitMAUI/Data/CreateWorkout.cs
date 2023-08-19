@@ -13,8 +13,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Bumptech.Glide.Request.Target;
 using Dynastream.Fit;
+using System.Text.Json;
 
 namespace cycleFitMAUI.Data
 {
@@ -24,6 +24,7 @@ namespace cycleFitMAUI.Data
         {
             CreateBikeTempoWorkout();
         }
+
 /*
  * CREATE BIKE WORKOUT (this should be more flexible)
  * Heart Rate Zones (provide a default in case of failure that just uses 190 as the max HR... hard code this)
@@ -45,7 +46,7 @@ namespace cycleFitMAUI.Data
  * 5. run CreateWorkout
  */
         public static void CreateBikeWorkout(string title, List<WorkoutStep> steps)
-        {   
+        {
             var workoutSteps = new List<WorkoutStepMesg>();
 
             foreach (var step in steps)
@@ -58,9 +59,9 @@ namespace cycleFitMAUI.Data
                     customTargetValueLow: Convert.ToUInt32(Math.Ceiling(step.Zone.Low)),
                     customTargetValueHigh: Convert.ToUInt32(Math.Ceiling(step.Zone.High)),
                     intensity: step.Intensity
-                    ));
+                ));
             }
-            
+
             var workoutMesg = new WorkoutMesg();
             workoutMesg.SetWktName(title);
             workoutMesg.SetSport(Sport.Cycling);
@@ -69,6 +70,7 @@ namespace cycleFitMAUI.Data
 
             CreateWorkout(workoutMesg, workoutSteps);
         }
+
         private static void CreateBikeTempoWorkout()
         {
             var workoutSteps = new List<WorkoutStepMesg>();
@@ -242,6 +244,21 @@ namespace cycleFitMAUI.Data
 
             return workoutStepMesg;
         }
+
+        public static (int, HeartRateZones) RetrieveUserHrZones()
+        {
+            var hasHrZones = Preferences.Default.ContainsKey("HRData");
+
+            if (hasHrZones == false) return (400, new HeartRateZones());
+
+            var hrData = Preferences.Default.Get("HRData", "");
+
+            if (hrData == "") return (400, new HeartRateZones());
+
+            var userHrZones = JsonSerializer.Deserialize<HeartRateZones>(hrData);
+
+            return (200, userHrZones);
+        }
     }
 
     public class HeartRateZones
@@ -258,13 +275,13 @@ namespace cycleFitMAUI.Data
         public double Low { get; set; }
         public double High { get; set; }
     }
-    
+
     public class WorkoutStep
     {
-         public WktStepDuration DurationType { get; set; }
-         public uint DurationValue { get; set; }
-         public WktStepTarget TargetType { get; set; }
-         public Zone Zone { get; set; }
-         public Intensity Intensity { get; set; }
+        public WktStepDuration DurationType { get; set; }
+        public uint DurationValue { get; set; }
+        public WktStepTarget TargetType { get; set; }
+        public Zone Zone { get; set; }
+        public Intensity Intensity { get; set; }
     }
 }
