@@ -129,28 +129,49 @@ namespace cycleFitMAUI.Data
 
             try
             {
-                string downloadsFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                var downloadsFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
-                string filePath = $"{workoutMesg.GetWktNameAsString().Replace(' ', '_')}.fit";
+                var filePath = $"{workoutMesg.GetWktNameAsString().Replace(' ', '_')}.fit";
 
-                string destinationFilePath = Path.Combine(downloadsFolder, "Downloads", filePath);
-
+                var destinationFilePath = Path.Combine(downloadsFolder, "Downloads", filePath);
+                
 
                 // Check if the file name already exists in the current location
                 if (System.IO.File.Exists(destinationFilePath) == true)
                 {
                     string fileName = $"{filePath.Substring(0, filePath.IndexOf(".fit"))}";
-                    int copyNumber = 1;
-                    while (System.IO.File.Exists($"{downloadsFolder}{fileName}({copyNumber}).fit"))
+                    string baseFileName = fileName;
+                    int copyNumber = 0;
+                    
+                    // Check if the base file name contains "(number)"
+                    int openParenIndex = baseFileName.LastIndexOf("(");
+                    int closeParenIndex = baseFileName.LastIndexOf(")");
+                    
+                   
+                    if (openParenIndex >= 0 && closeParenIndex > openParenIndex)
                     {
-                        copyNumber++;
+                        string copyNumberStr = baseFileName.Substring(openParenIndex + 1, closeParenIndex - openParenIndex - 1);
+                        if (int.TryParse(copyNumberStr, out int existingCopyNumber))
+                        {
+                            copyNumber = existingCopyNumber + 1;
+                            baseFileName = baseFileName.Substring(0, openParenIndex);
+                        }
                     }
 
-                    destinationFilePath = Path.Combine(downloadsFolder, "Downloads", $"{fileName} ({copyNumber}).fit");
+                    string newFileName;
+    
+                    do
+                    {
+
+                        newFileName = copyNumber == 0 ? $"{baseFileName}.fit" : $"{baseFileName}({copyNumber}).fit";
+                        copyNumber++;
+                    } while (System.IO.File.Exists(Path.Combine(downloadsFolder, "Downloads", newFileName)));
+
+                    destinationFilePath = Path.Combine(downloadsFolder, "Downloads", $"{newFileName}");
                 }
 
                 // Create the output stream, this can be any type of stream, including a file or memory stream. Must have read/write access
-                FileStream fitDest = new FileStream(destinationFilePath, FileMode.Create, FileAccess.ReadWrite,
+                FileStream fitDest = new FileStream(destinationFilePath, FileMode.CreateNew, FileAccess.ReadWrite,
                     FileShare.Read);
 
                 // Create a FIT Encode object

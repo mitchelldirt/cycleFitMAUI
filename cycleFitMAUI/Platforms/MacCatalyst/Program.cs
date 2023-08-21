@@ -10,6 +10,7 @@ public class Program
 	{
 		// if you want to use a different Application Delegate class from "AppDelegate"
 		// you can specify it here.
+		Thread.Sleep(5000);
 		UIApplication.Main(args, null, typeof(AppDelegate));
 	}
 }
