@@ -93,4 +93,62 @@ public class SampleWorkouts
  
         WorkoutService.CreateBikeWorkout("4x8mins", steps);
     }
+    public static void Tabata(HeartRateZones hrZones)
+    {
+        List<WorkoutStep> steps = new List<WorkoutStep>();
+
+        // Warmup
+        steps.Add(new WorkoutStep
+        {
+            DurationType = WktStepDuration.Time,
+            DurationValue = 900000,
+            Intensity = Intensity.Warmup,
+            TargetType = WktStepTarget.HeartRate,
+            Zone = hrZones.Zone2
+        });
+        
+        // Repeats start here
+        for (var sets = 0; sets < 3; sets++)
+        {
+            for (var i = 0; i < 8; i++)
+            {
+                steps.Add(new WorkoutStep
+                {
+                    DurationType = WktStepDuration.Time,
+                    DurationValue = 20000,
+                    Intensity = Intensity.Active,
+                    TargetType = WktStepTarget.HeartRate,
+                    Zone = hrZones.Zone4
+                });
+                steps.Add(new WorkoutStep
+                {
+                    DurationType = WktStepDuration.Time,
+                    DurationValue = 10000,
+                    Intensity = Intensity.Rest,
+                    TargetType = WktStepTarget.HeartRate,
+                    Zone = hrZones.Zone2
+                });
+            }
+            
+            steps.Add(new WorkoutStep
+            {
+                DurationType = WktStepDuration.Time,
+                DurationValue = 600000,
+                Intensity = Intensity.Rest,
+                TargetType = WktStepTarget.HeartRate,
+                Zone = hrZones.Zone1
+            });
+        }
+        // Cooldown
+        steps.Add(new WorkoutStep
+        {
+            DurationType = WktStepDuration.Time,
+            DurationValue = 900000,
+            Intensity = Intensity.Cooldown,
+            TargetType = WktStepTarget.HeartRate,
+            Zone = hrZones.Zone2
+        });
+ 
+        WorkoutService.CreateBikeWorkout("tabata", steps);
+    }
 }

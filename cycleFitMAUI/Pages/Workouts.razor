@@ -1,22 +1,28 @@
 @page "/workouts"
 
 @using cycleFitMAUI.Data
-@using System.Text.Json
+@using cycleFitMAUI.Shared.Components
 
-<h1>Pre-made Workouts!</h1>
-<p>Here are some workouts I made that I think you may like :)</p>
+<h1 class="font-bold text-3xl">Pre-made Workouts!</h1>
+<p class="text-lg mb-6">Here are some workouts I made that I think you may like :)</p>
 
-<button class="" @onclick="CreateTheWorkout">Click me to have a workout made!</button>
+<SampleWorkout SaveWorkout="@SaveFourEightMinuteWorkout" Title="4x8min Repeats" Description="This is a pretty tough workout. You'll do a warmup then 4x8 minutes all out rides with 4 minutes of rest in between. Afterwards you should cool down for a while" />
+<SampleWorkout SaveWorkout="@SaveTabataWorkout" Title="Tabata Time!" Description="Three sets of Tabata 💪🏻! I recommend looking up how they work before you attempt the workout :)" />
 
 @code {
 #nullable enable
 
-    private static void CreateTheWorkout()
+    private static void SaveFourEightMinuteWorkout()
     {
         (int, HeartRateZones) hrInfo = WorkoutService.RetrieveUserHrZones();
-
         if (hrInfo.Item1 == 400) return;
-        
         SampleWorkouts.FourEightMinute(hrInfo.Item2);
+    }
+
+    private static void SaveTabataWorkout()
+    {
+        (int, HeartRateZones) hrInfo = WorkoutService.RetrieveUserHrZones();
+        if (hrInfo.Item1 == 400) return;
+        SampleWorkouts.Tabata(hrInfo.Item2);
     }
 }

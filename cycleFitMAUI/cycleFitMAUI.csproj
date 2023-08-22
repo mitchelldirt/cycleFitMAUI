@@ -68,6 +68,5 @@
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Styles\" />
-      <Folder Include="Shared\Components\" />
     </ItemGroup>
 </Project>
