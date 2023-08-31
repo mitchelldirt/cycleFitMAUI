@@ -8,7 +8,14 @@
 
 <SampleWorkout SaveWorkout="@SaveFourEightMinuteWorkout" Title="4x8min Repeats" Description="This is a pretty tough workout. You'll do a warmup then 4x8 minutes all out rides with 4 minutes of rest in between. Afterwards you should cool down for a while" />
 <SampleWorkout SaveWorkout="@SaveTabataWorkout" Title="Tabata Time!" Description="Three sets of Tabata 💪🏻! I recommend looking up how they work before you attempt the workout :)" />
+<SampleWorkout SaveWorkout="@SaveAnaerobicAttackWorkout" Title="Anaerobic Attack" Description="Smaller warmup followed by six max effort repeats! Don't worry about heart rate as much as pushing as hard as you can." />
+<SampleWorkout SaveWorkout="@SaveV02MaxPush" Title="V02 Max Push" Description="Warmup then you'll do three sets where you go flat out for 30s, hard as you can sustain over 3.5m, followed by a short rest. Good luck! :)" />
+<SampleWorkout SaveWorkout="@SaveEnduranceReps" Title="Endurance Reps" Description="This is a fantastic workout to do during your long ride(s)! Long warmup followed by three 15 minute hard reps. Super achievable if you've got the time" />
+<SampleWorkout SaveWorkout="@SavePowerPyramid" Title="Power Pyramid" Description="Pyramid workouts are great for working your endurance. This workout incorporates two reps, but feel free to do just one or even... THREE 😱" />
 
+<footer class="w-full mt-12 flex justify-center">
+    <p class="w-fit bg-slate-100">Thanks to Cycling Weekly & Bicycle Guider for their articles on cycling workouts 🤩</p>
+</footer>
 @code {
 #nullable enable
 
@@ -24,5 +31,33 @@
         (int, HeartRateZones) hrInfo = WorkoutService.RetrieveUserHrZones();
         if (hrInfo.Item1 == 400) return;
         SampleWorkouts.Tabata(hrInfo.Item2);
+    }
+
+    private static void SaveAnaerobicAttackWorkout()
+    {
+        (int, HeartRateZones) hrInfo = WorkoutService.RetrieveUserHrZones();
+        if (hrInfo.Item1 == 400) return;
+        SampleWorkouts.AnaerobicAttack(hrInfo.Item2);
+    }
+    
+    private static void SaveV02MaxPush()
+    {
+        (int, HeartRateZones) hrInfo = WorkoutService.RetrieveUserHrZones();
+        if (hrInfo.Item1 == 400) return;
+        SampleWorkouts.V02MaxPush(hrInfo.Item2);
+    }
+    
+    private static void SaveEnduranceReps()
+    {
+        (int, HeartRateZones) hrInfo = WorkoutService.RetrieveUserHrZones();
+        if (hrInfo.Item1 == 400) return;
+        SampleWorkouts.EnduranceReps(hrInfo.Item2);
+    }
+    
+    private static void SavePowerPyramid()
+    {
+        (int, HeartRateZones) hrInfo = WorkoutService.RetrieveUserHrZones();
+        if (hrInfo.Item1 == 400) return;
+        SampleWorkouts.PowerPyramid(hrInfo.Item2);
     }
 }
