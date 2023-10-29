@@ -3,22 +3,40 @@
 @using cycleFitMAUI.Data
 @inject WorkoutService cycleWorkoutService
 
-<h1>Create your cycling workout</h1>
-<p>@greeting</p>
-
-<div class="flex flex-row justify-between w-full">
-    <button class="rounded-full bg-red-500">Add Warmup</button>
-    <button class="rounded-full bg-yellow-500">Add Workout Step</button>
-    <button class="rounded-full bg-blue-500">Add Cooldown</button>
+<div class="flex flex-row justify-center w-full gap-24 mb-8">
+    <button type="button" class="rounded-lg text-xl font-semibold px-6 py-3 bg-purple-500 text-white">
+        <i class="fa-solid fa-file-arrow-down"></i>
+        Download
+    </button>
+    <button type="button" class="rounded-lg text-xl font-semibold px-6 py-3ddwwwdwdws bg-purple-500 text-white">
+        <i class="fa-solid fa-floppy-disk"></i>
+        Save
+    </button>
 </div>
 
-<button class="" @onclick="CreateTheWorkout">Click me to have a workout made!</button>
+<div class="flex flex-row justify-center w-full gap-24 mb-16">
+    <button type="button" class="rounded-full text-2xl font-semibold p-6 bg-red-500 text-white">Add Warmup</button>
+    <button type="button" class="rounded-full text-2xl font-semibold p-6 bg-yellow-500 text-white">Add Workout Step</button>
+    <button type="button" class="rounded-full text-2xl font-semibold p-6 bg-blue-500 text-white">Add Cooldown</button>
+</div>
+
+<main id="currentWorkout" class="flex flex-row flex-wrap gap-10 w-full justify-start px-14">
+    <div class="w-40 h-40 bg-red-500"></div>
+    <div class="w-40 h-40 bg-yellow-500"></div>
+    <div class="w-40 h-40 bg-yellow-500"></div>
+    <div class="w-40 h-40 bg-yellow-500"></div>
+    <div class="w-40 h-40 bg-yellow-500"></div>
+    <div class="w-40 h-40 bg-yellow-500"></div>
+    <div class="w-40 h-40 bg-yellow-500"></div>
+    <div class="w-40 h-40 bg-yellow-500"></div>
+    <div class="w-40 h-40 bg-yellow-500"></div>
+    <div class="w-40 h-40 bg-blue-500"></div>
+</main>
 
 @code {
-    string greeting = "Hey ;)";
-
     protected void CreateTheWorkout()
     {
         cycleWorkoutService.Main();
     }
+
 }
