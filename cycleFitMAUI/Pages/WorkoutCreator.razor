@@ -1,6 +1,8 @@
 ﻿@page "/workoutcreator"
 
 @using cycleFitMAUI.Data
+@using cycleFitMAUI.Shared.Components
+@using WorkoutStep = cycleFitMAUI.Shared.Components.WorkoutStep
 @inject WorkoutService cycleWorkoutService
 
 <div class="flex flex-row justify-center w-full gap-24 mb-8">
@@ -20,6 +22,10 @@
     <button type="button" class="rounded-full text-2xl font-semibold p-6 bg-blue-500 text-white">Add Cooldown</button>
 </div>
 
+<WorkoutStep Zone="WorkoutStep.ZoneTypes.Zone1"  StepType="WorkoutStep.StepTypes.Warmup" />
+<WorkoutStep Zone="WorkoutStep.ZoneTypes.Zone3" StepType="WorkoutStep.StepTypes.Main" />
+<WorkoutStep Zone="WorkoutStep.ZoneTypes.Zone5" StepType="WorkoutStep.StepTypes.Cooldown" />
+
 <main id="currentWorkout" class="flex flex-row flex-wrap gap-10 w-full justify-start px-14">
     <div class="w-40 h-40 bg-red-500"></div>
     <div class="w-40 h-40 bg-yellow-500"></div>
@@ -34,9 +40,9 @@
 </main>
 
 @code {
-    protected void CreateTheWorkout()
-    {
-        cycleWorkoutService.Main();
-    }
 
+    private void AddWorkoutStepComponent()
+    {
+        
+    }
 }

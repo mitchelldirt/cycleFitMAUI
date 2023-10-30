@@ -1,0 +1,60 @@
+@using cycleFitMAUI.Data
+
+<div class="w-40 h-40 @(GetBackgroundColor())">
+    <label>Zone
+        <select name="Zone">
+            @foreach (ZoneTypes zone in Enum.GetValues(typeof(ZoneTypes)))
+            {
+                if (zone.ToString() == Zone.ToString())
+                {
+                    <option value="@zone.ToString()" selected>@zone</option>
+                    continue;
+                }
+                <option value="@zone.ToString()">@zone</option>
+            }
+        </select>
+    </label>
+    
+    <label>Duration
+    <input type="number" value="@Duration" name="Duration" />
+    </label>
+</div>
+
+@code {
+    private string GetBackgroundColor()
+    {
+        return StepType switch
+        {
+            StepTypes.Warmup => "bg-red-500",
+            StepTypes.Main => "bg-yellow-500",
+            StepTypes.Cooldown => "bg-blue-500",
+            _ => "bg-purple-500"
+            };
+    }
+    
+    public enum StepTypes
+    {
+        Warmup,
+        Main,
+        Cooldown
+    }
+    
+    public enum ZoneTypes
+    {
+        Zone1,
+        Zone2,
+        Zone3,
+        Zone4,
+        Zone5
+    }
+
+    [Parameter]
+    public StepTypes StepType { get; set; } = StepTypes.Main;
+
+    [Parameter]
+    public ZoneTypes Zone { get; set; } = ZoneTypes.Zone1;
+
+    [Parameter]
+    public int Duration { get; set; }
+
+}
