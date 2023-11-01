@@ -27,22 +27,15 @@
 <WorkoutStep Zone="WorkoutStep.ZoneTypes.Zone5" StepType="WorkoutStep.StepTypes.Cooldown" />
 
 <main id="currentWorkout" class="flex flex-row flex-wrap gap-10 w-full justify-start px-14">
-    <div class="w-40 h-40 bg-red-500"></div>
-    <div class="w-40 h-40 bg-yellow-500"></div>
-    <div class="w-40 h-40 bg-yellow-500"></div>
-    <div class="w-40 h-40 bg-yellow-500"></div>
-    <div class="w-40 h-40 bg-yellow-500"></div>
-    <div class="w-40 h-40 bg-yellow-500"></div>
-    <div class="w-40 h-40 bg-yellow-500"></div>
-    <div class="w-40 h-40 bg-yellow-500"></div>
-    <div class="w-40 h-40 bg-yellow-500"></div>
-    <div class="w-40 h-40 bg-blue-500"></div>
+    @foreach (var step in steps)
+    {
+        @ChildFrag(step)
+    }
 </main>
 
 @code {
-
-    private void AddWorkoutStepComponent()
-    {
-        
-    }
+    // TODO: Add a way to add steps to the workout and allow for editing of the steps
+    List<WorkoutStep.Step> steps = new ();
+    
+    RenderFragment<WorkoutStep.Step> ChildFrag = (current) => @<WorkoutStep Zone="@current.Zone" Duration="@current.Duration" StepType="@current.StepType" />;
 }

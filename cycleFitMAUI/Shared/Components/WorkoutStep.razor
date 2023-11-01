@@ -1,8 +1,8 @@
 @using cycleFitMAUI.Data
 
-<div class="w-40 h-40 @(GetBackgroundColor())">
-    <label>Zone
-        <select name="Zone">
+<div class="w-40 h-40 flex flex-col justify-center items-center gap-4  @(GetBackgroundColor())">
+    
+        <select style="" name="Zone">
             @foreach (ZoneTypes zone in Enum.GetValues(typeof(ZoneTypes)))
             {
                 if (zone.ToString() == Zone.ToString())
@@ -13,10 +13,10 @@
                 <option value="@zone.ToString()">@zone</option>
             }
         </select>
-    </label>
     
-    <label>Duration
-    <input type="number" value="@Duration" name="Duration" />
+    
+    <label class="flex flex-col w-full text-center items-center font-bold text-xl text-white">Duration
+    <input class="w-1/2 text-right font-normal text-lg text-black" type="number" @bind="Duration" name="Duration" />
     </label>
 </div>
 
@@ -46,6 +46,13 @@
         Zone3,
         Zone4,
         Zone5
+    }
+    
+    public class Step
+    {
+        public StepTypes StepType { get; set; }
+        public ZoneTypes Zone { get; set; }
+        public int Duration { get; set; }
     }
 
     [Parameter]
