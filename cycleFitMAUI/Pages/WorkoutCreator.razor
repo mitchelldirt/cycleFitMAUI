@@ -17,14 +17,10 @@
 </div>
 
 <div class="flex flex-row justify-center w-full gap-24 mb-16">
-    <button type="button" class="rounded-full text-2xl font-semibold p-6 bg-red-500 text-white">Add Warmup</button>
-    <button type="button" class="rounded-full text-2xl font-semibold p-6 bg-yellow-500 text-white">Add Workout Step</button>
-    <button type="button" class="rounded-full text-2xl font-semibold p-6 bg-blue-500 text-white">Add Cooldown</button>
+    <button @onclick="() => AddStep(WorkoutStep.ZoneTypes.Zone2, WorkoutStep.StepTypes.Warmup, 10)" type="button" class="rounded-full text-2xl font-semibold p-6 bg-red-500 text-white">Add Warmup</button>
+    <button @onclick="() => AddStep(WorkoutStep.ZoneTypes.Zone4, WorkoutStep.StepTypes.Main, 20)" type="button" class="rounded-full text-2xl font-semibold p-6 bg-yellow-500 text-white">Add Workout Step</button>
+    <button @onclick="() => AddStep(WorkoutStep.ZoneTypes.Zone1, WorkoutStep.StepTypes.Cooldown, 20)" type="button" class="rounded-full text-2xl font-semibold p-6 bg-blue-500 text-white">Add Cooldown</button>
 </div>
-
-<WorkoutStep Zone="WorkoutStep.ZoneTypes.Zone1"  StepType="WorkoutStep.StepTypes.Warmup" />
-<WorkoutStep Zone="WorkoutStep.ZoneTypes.Zone3" StepType="WorkoutStep.StepTypes.Main" />
-<WorkoutStep Zone="WorkoutStep.ZoneTypes.Zone5" StepType="WorkoutStep.StepTypes.Cooldown" />
 
 <main id="currentWorkout" class="flex flex-row flex-wrap gap-10 w-full justify-start px-14">
     @foreach (var step in steps)
@@ -35,7 +31,13 @@
 
 @code {
     // TODO: Add a way to add steps to the workout and allow for editing of the steps
-    List<WorkoutStep.Step> steps = new ();
-    
-    RenderFragment<WorkoutStep.Step> ChildFrag = (current) => @<WorkoutStep Zone="@current.Zone" Duration="@current.Duration" StepType="@current.StepType" />;
+    List<WorkoutStep.Step> steps = new();
+
+    private void AddStep(WorkoutStep.ZoneTypes zone, WorkoutStep.StepTypes stepType, int duration)
+    {
+        steps.Add(new WorkoutStep.Step { Zone = zone, StepType = stepType, Duration = duration });
+    }
+
+    RenderFragment<WorkoutStep.Step> ChildFrag = (current) => @<WorkoutStep Zone="@current.Zone" Duration="@current.Duration" StepType="@current.StepType"/>;
+
 }
